@@ -3,7 +3,6 @@ import os, sys
 import numpy as np
 import math
 import face_recognition
-from cv2 import VideoCapture
 
 
 # Method for calculating the confidence value for a given face
@@ -14,7 +13,7 @@ def face_confidence(face_distance, face_match_threshold=0.6):
     if face_distance > face_match_threshold:
         return str(round(linear_val * 100, 2)) + '%'
     else:
-        value = (linear_val + ((1.0 - linear_val) * math*pow((linear_val - 0.5) * 2, 0.2))) * 100
+        value = (linear_val + ((1.0 - linear_val) * math.pow((linear_val - 0.5) * 2, 0.2))) * 100
         return str(round(value, 2)) + '%'
 
 # Class that keeps track of all the known faces and relevant attributes
@@ -30,10 +29,13 @@ def encode_faces(self):
     print('starts encoding...')
     for image in os.listdir('Faces'):
         face_image = face_recognition.load_image_file(f'Faces/{image}')
-        face_encoding = face_recognition.face_encodings(face_image)
 
-        self.known_face_encodings.append(face_encoding)
-        self.known_face_names.append(image)
+        if (face_recognition.face_encodings(face_image) != []):
+            face_encoding = face_recognition.face_encodings(face_image)[0]
+            self.known_face_encodings.append(face_encoding)
+            self.known_face_names.append(image)
+        else:
+            print(f'{image}: No face found in picture')
 
 def run_recognition(self):
     video_capture = cv.VideoCapture(0)
@@ -43,7 +45,7 @@ def run_recognition(self):
 
         if self.process_current_frame:
             small_frame = cv.resize(frame, (0, 0), fx=0.25, fy=0.25)
-            rgb_small_frame = small_frame[:, :, ::-1]
+            rgb_small_frame = cv.cvtColor(small_frame, cv.COLOR_BGR2RGB)
 
             # Finding all faces in current frame
             self.face_locations = face_recognition.face_locations(rgb_small_frame)
