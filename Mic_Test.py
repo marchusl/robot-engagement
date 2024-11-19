@@ -4,13 +4,37 @@ import datetime
 import threading
 from pydub import AudioSegment
 import os
+from openai import OpenAI
 
-def record_audio_to_mp3(participant_number):
-    # Define the directory to save audio files
-    directory = "audios"
-    os.makedirs(directory, exist_ok=True)
+client = OpenAI()
 
-    # Audio configuration
+
+def transcribe_audio(file_path, participant_number):
+    # Ensure the transcription directory exists
+    transcription_dir = "transcriptionFiles"
+    os.makedirs(transcription_dir, exist_ok=True)
+
+    # Open the audio file for transcription
+    with open(file_path, "rb") as audio_file:
+        transcription = client.audio.transcriptions.create(
+            model="whisper-1",
+            file=audio_file
+        )
+
+    # Save the transcription to a text file (overwrite for each participant)
+    text_filename = os.path.join(transcription_dir, f"participant{participant_number}_transcription.txt")
+    with open(text_filename, "w", encoding="utf-8") as text_file:  # "w" ensures the file is overwritten
+        text_file.write(transcription.text + "\n")
+
+    print(f"Transcription saved to {text_filename}")
+
+
+def record_and_transcribe(participant_number):
+    # Directories
+    audio_dir = "audios"
+    os.makedirs(audio_dir, exist_ok=True)
+
+    # Audio settings
     sample_rate = 16000
     chunk_size = 1024
     channels = 1
@@ -26,62 +50,69 @@ def record_audio_to_mp3(participant_number):
 
     frames = []
     stop_event = threading.Event()
+    exit_event = threading.Event()
 
     def record():
-        print(f"Recording for participant {participant_number}... Press Enter to save and stop recording.")
-        while not stop_event.is_set():
+        print(f"Recording for participant {participant_number}... Press '0' to exit.")
+        while not stop_event.is_set() and not exit_event.is_set():
             data = stream.read(chunk_size)
             frames.append(data)
 
-    def save_current_audio():
-        nonlocal frames
-        if not frames:
-            return
+    def monitor_exit():
+        while not stop_event.is_set():
+            user_input = input("Press '0' to exit or Enter to stop recording:\n").strip()
+            if user_input == "0":
+                print("Exit signal detected.")
+                exit_event.set()
+                stop_event.set()
+                break
+            elif user_input == "":
+                stop_event.set()
 
-        # Generate filenames including participant number
+    # Start threads
+    recording_thread = threading.Thread(target=record)
+    exit_thread = threading.Thread(target=monitor_exit)
+    recording_thread.start()
+    exit_thread.start()
+
+    # Wait for threads to finish
+    recording_thread.join()
+    exit_thread.join()
+
+    # Handle exit signal
+    if exit_event.is_set():
+        return True
+
+    # Save audio if recording was stopped
+    if frames:
         timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-        wav_filename = os.path.join(directory, f"participant{participant_number}_recording_{timestamp}.wav")
+        wav_filename = os.path.join(audio_dir, f"participant{participant_number}_recording_{timestamp}.wav")
         mp3_filename = wav_filename.replace(".wav", ".mp3")
 
-        # Save the frames as a WAV file
+        # Save WAV file
         with wave.open(wav_filename, 'wb') as wav_file:
             wav_file.setnchannels(channels)
             wav_file.setsampwidth(audio.get_sample_size(audio_format))
             wav_file.setframerate(sample_rate)
             wav_file.writeframes(b''.join(frames))
 
-        print(f"Saved temporary WAV recording as {wav_filename}")
+        print(f"Saved WAV recording as {wav_filename}")
 
-        # Convert the WAV file to MP3
+        # Convert to MP3
         audio_segment = AudioSegment.from_wav(wav_filename)
         audio_segment.export(mp3_filename, format="mp3")
         print(f"Converted recording to MP3 as {mp3_filename}")
 
-        # Delete the WAV file
         os.remove(wav_filename)
         print(f"Temporary WAV file {wav_filename} deleted.")
 
-        # Clear frames after saving
-        frames = []
+        # Transcribe audio
+        transcribe_audio(mp3_filename, participant_number)
 
-        return mp3_filename  # Return the MP3 file path for transcription
+    # Clean up audio resources
+    stream.stop_stream()
+    stream.close()
+    audio.terminate()
 
-    # Start the recording thread
-    recording_thread = threading.Thread(target=record)
-    recording_thread.start()
-
-    try:
-        input("Press Enter to save and stop recording for the current participant...\n")
-        stop_event.set()
-        recording_thread.join()
-
-        # Save audio and return the file path
-        return save_current_audio()
-
-    finally:
-        # Stop and close the stream
-        stream.stop_stream()
-        stream.close()
-        audio.terminate()
-
-        print("Recording stopped and all audio saved.")
+    print("Recording stopped and transcription completed.")
+    return False  # Continue program
