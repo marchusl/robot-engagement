@@ -24,6 +24,7 @@ def FindFaceAndCreateImage():
     imageHeight = int
     imageWidth = int
     centerCoordinate_BoundingBox = []
+    centerOfBoundingBoxes = []
     
     if results.multi_face_landmarks:
         for face_landmarks in results.multi_face_landmarks:
@@ -38,6 +39,9 @@ def FindFaceAndCreateImage():
             cx_min=  w
             cy_min = h
             cx_max= cy_max= 0
+
+            face_id = results.multi_face_landmarks.index(face_landmarks)
+
             for id, lm in enumerate(face_landmarks.landmark):       #Loop over face landmarks and make a bounding box around the face landmarks.
                 cx, cy = int(lm.x * w), int(lm.y * h)
                 if cx<cx_min:
@@ -61,11 +65,13 @@ def FindFaceAndCreateImage():
 
             #Draw the bounding box in cyan blue
             cv2.rectangle(image, (cx_min, cy_min), (cx_max, cy_max), (255, 255, 0), 2)
+            cv2.putText(image, "Original ID: " + str(face_id), (cx_min, cy_min), cv2.FONT_HERSHEY_DUPLEX, 0.8, (255, 255, 255), 1)
 
             #Save pixels within the bounding box as an image array
             faceBoundingBox_Image = image[cy_min:cy_max, cx_min:cx_max]
             
             centerCoordinate_BoundingBox = GetCenterOfFaceBoundingBox(cx_min, cx_max, cy_min, cy_max)
+            centerOfBoundingBoxes.append(centerCoordinate_BoundingBox)
 
             #print(centerCoordinate_BoundingBox) 
             
@@ -73,7 +79,12 @@ def FindFaceAndCreateImage():
 
 
             # for imgCoordinate in imgOnRectangle:
-    
+
+    # Checking all the found bounding boxes and sorts based on the coordinates
+    Sorted_IDs = DistributeIDBasedOnPlacement(results.multi_face_landmarks, centerOfBoundingBoxes)
+
+    # Displays the ID on the center pixel
+    DisplayIDs(image, Sorted_IDs)
 
     if len(faceBoundingBox_Image) > 0:
         cv2.imshow("FaceBoundingBox", faceBoundingBox_Image)
@@ -95,6 +106,26 @@ def GetCenterOfFaceBoundingBox(x_min, x_max, y_min, y_max):
     #print(centerCoordinate_x, centerCoordinate_y)
     return centerCoordinates_xy
 
+def DistributeIDBasedOnPlacement(face_meshes, centerCoordinateBoundingBoxes):
+
+    # Ensuring it does not crash if no face is detected
+    if face_meshes != None:
+
+        # Creating a dictionary to keep track of faces coordinates and ID
+        FaceSortedIDs = {}
+        for face in face_meshes:
+            FaceSortedIDs[face_meshes.index(face)] = centerCoordinateBoundingBoxes[face_meshes.index(face)]
+
+        # Sorting the faces based on their coordinates
+        sorted_faces = sorted(FaceSortedIDs.items(), key=lambda x: x[1])
+        sorted_dict = dict(sorted_faces)
+
+        return sorted_dict
+
+def DisplayIDs(image, sorted_ids):
+    if sorted_ids != None:
+        for id in sorted_ids:
+            cv2.putText(image, "Sorted ID: " + str(list(sorted_ids.keys()).index(id)), (sorted_ids[id][0] - 70, sorted_ids[id][1] + 110), cv2.FONT_HERSHEY_DUPLEX, 0.8, (255, 255, 255), 1)
 
 with mp_face_mesh.FaceMesh(min_detection_confidence=0.5,
                            min_tracking_confidence=0.5) as face_mesh:
