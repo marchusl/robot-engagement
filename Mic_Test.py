@@ -2,7 +2,6 @@ import pyaudio
 import wave
 import datetime
 import threading
-from pydub import AudioSegment
 import os
 from openai import OpenAI
 
@@ -87,7 +86,6 @@ def record_and_transcribe(participant_number):
     if frames:
         timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
         wav_filename = os.path.join(audio_dir, f"participant{participant_number}_recording_{timestamp}.wav")
-        mp3_filename = wav_filename.replace(".wav", ".mp3")
 
         # Save WAV file
         with wave.open(wav_filename, 'wb') as wav_file:
@@ -98,16 +96,8 @@ def record_and_transcribe(participant_number):
 
         print(f"Saved WAV recording as {wav_filename}")
 
-        # Convert to MP3
-        audio_segment = AudioSegment.from_wav(wav_filename)
-        audio_segment.export(mp3_filename, format="mp3")
-        print(f"Converted recording to MP3 as {mp3_filename}")
-
-        os.remove(wav_filename)
-        print(f"Temporary WAV file {wav_filename} deleted.")
-
-        # Transcribe audio
-        transcribe_audio(mp3_filename, participant_number)
+        # Transcribe audio directly from the WAV file
+        transcribe_audio(wav_filename, participant_number)
 
     # Clean up audio resources
     stream.stop_stream()
