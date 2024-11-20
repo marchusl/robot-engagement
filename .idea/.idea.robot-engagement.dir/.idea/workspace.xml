@@ -7,7 +7,9 @@
     <list default="true" id="ea27cc3d-ba27-4925-b84e-9f1f3adee183" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.robot-engagement.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.robot-engagement.dir/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ChatGPT_Prompting.py" beforeDir="false" afterPath="$PROJECT_DIR$/ChatGPT_Prompting.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MediapipePre.py" beforeDir="false" afterPath="$PROJECT_DIR$/MediapipePre.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Mic_Test.py" beforeDir="false" afterPath="$PROJECT_DIR$/Mic_Record.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/STT_Transcription.py" beforeDir="false" afterPath="$PROJECT_DIR$/STT_Transcription.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TTS_Robot.py" beforeDir="false" afterPath="$PROJECT_DIR$/TTS_Robot.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -43,6 +45,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Python.ChangeHeadOrientation_Pixel.executor": "Run",
+    "Python.ChatGPT_Prompting.executor": "Run",
     "Python.FaceRecognition.executor": "Run",
     "Python.MediapipePre.executor": "Run",
     "Python.OpenaiAPI_Test.executor": "Run",
@@ -69,7 +72,7 @@
   }
 }]]></component>
   <component name="RunManager" selected="Python.main">
-    <configuration name="ChangeHeadOrientation_Pixel" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="ChatGPT_Prompting" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="rider.module" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -82,7 +85,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/ChangeHeadOrientation_Pixel.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/ChatGPT_Prompting.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -182,10 +185,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.ChatGPT_Prompting" />
         <item itemvalue="Python.MediapipePre" />
         <item itemvalue="Python.UserHeadDirection" />
         <item itemvalue="Python.FaceRecognition" />
-        <item itemvalue="Python.ChangeHeadOrientation_Pixel" />
       </list>
     </recent_temporary>
   </component>

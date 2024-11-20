@@ -14,15 +14,18 @@ def transcribe_audio(file_path, participant_number):
         with open(file_path, "rb") as audio_file:
             transcription = client.audio.transcriptions.create(
                 model="whisper-1",
-                file=audio_file
+                file=audio_file,
+                language="da"
             )
 
         # Save the transcription to a text file named by participant number
         text_filename = os.path.join(transcription_dir, f"participant{participant_number}_transcription.txt")
         with open(text_filename, "a", encoding="utf-8") as text_file:
             text_file.write(transcription.text + "\n")
-
+        
         print(f"Transcription saved to {text_filename}")
+        
+        return transcription.text
 
     except Exception as e:
         print(f"Error during transcription: {e}")
