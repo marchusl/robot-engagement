@@ -1,4 +1,7 @@
+import main
 
+# Used for orienting the head
+#globalCurrentHeadPosition = "neutral"
 
 def PixelCoordinate_HeadOrientation(pixelCoordinate, cameraResolution_width, cameraResolution_height):
     
@@ -30,3 +33,37 @@ def CreateStringCommand_HeadOrientation(action, currentPosition, newPosition):
 def CreateStringCommand_Nod(currentPosition):
     actionstring = "[GESTURE] nod-" + currentPosition
     return actionstring
+
+
+def define_orientation_by_id(id, participation_amount):     # Method used for translating the participation id to rotations
+    #participantAmmount = len(ask_order_list)
+    headOrientation = ""
+    if participation_amount == 2:
+        match id:
+            case "1":
+                headOrientation = "left"
+            case "2":
+                headOrientation = "right"
+                
+    
+    if participation_amount == 3:
+        match id:
+            case "1":
+                headOrientation = "left"
+            case "2":
+                headOrientation = "neutral"
+            case "3":
+                headOrientation = "right"
+
+    if participation_amount == 4:
+        match id:
+            case "1":
+                headOrientation = "left"
+            case "2":
+                headOrientation = "neutral"
+            case "3":
+                headOrientation = "neutral"
+            case "4":
+                headOrientation = "right"
+            
+    return headOrientation

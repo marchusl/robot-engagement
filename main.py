@@ -2,6 +2,8 @@ import time
 
 import cv2
 
+import ChangeHeadOrientation
+from ServerScript import start_socket_streaming
 from Mic_Test import record_audio
 from STT_Transcription import transcribe_audio
 import TTS_Robot
@@ -27,23 +29,28 @@ messagesList_participant_3 = []
 sorted_participant_IDs = []
 faceCenterPixels = []
 
-participant_Amount = int
+participant_Amount = 2
+
+# Used for orienting the head
+globalCurrentHeadPosition = "neutral"
 
 def main():
+
+    start_socket_streaming()
+    print("Beyond start")
     
-    
-    def LookForFaces_ReturnIDs(_duration):
-        start_time = time.time()  # Get the current time when recording starts
-        returned_Sorted_IDs = []
-        while time.time() - start_time < _duration:
-            temp_Sorted_IDs = MediapipePre.FindFaceAndAssignIDs(video=video)
-            for id, _id in temp_Sorted_IDs:
-                returned_Sorted_IDs.append(_id)
-            if time.time() - start_time < _duration:
-                break
-            cv2.waitKey(1)
-        
-        return returned_Sorted_IDs
+    # def LookForFaces_ReturnIDs(_duration):
+    #     start_time = time.time()  # Get the current time when recording starts
+    #     returned_Sorted_IDs = []
+    #     while time.time() - start_time < _duration:
+    #         temp_Sorted_IDs = MediapipePre.FindFaceAndAssignIDs(video=video)
+    #         for id in temp_Sorted_IDs:
+    #             returned_Sorted_IDs.append(id)
+    #         if time.time() - start_time < _duration:
+    #             break
+    #         cv2.waitKey(1)
+    #     
+    #     return returned_Sorted_IDs
     
     # ChatGPT_Prompting.Add_System_Prompt_ChatGPT(startingPrompt_ChatGPT)
     # ChatGPT_Prompting.messages.append(startingPrompt_ChatGPT)
@@ -63,6 +70,8 @@ def main():
     
     #video.release()
     #cv2.destroyAllWindows()
+    
+    
     
     # ROUND 1: PITCH ROUND
     # ------------------------------------------------------------------
@@ -84,7 +93,43 @@ def main():
 
     # ROUND 2: DISCUSSION ROUND
     
-    
+    #id'er går fra venstre til højre
+
+    input_ask_order = input("RANK ENGAGEMENT NOW (comma separation): ")
+    final_ask_order = input_ask_order.split(",")
+
+    #Loop over id in the written order input above, and create and save string commands into variables for use later, so we can easily apply the rotations when each student has been discussed with.
+    # The four variables below are strings that should be able to be used as an argument in the set_send_message method in ServerScript.py, so the robot will orient its head correctly.
+    first_headOrientation = ""
+    second_headOrientation = ""
+    third_headOrientation = ""
+    fourth_headOrientation = ""
+
+    iterator = 1
+    currentlyIteratedOrientation = ""   # Used for storing the head orientation "calculated" in the current for loop iteration, so the next head orientations know which orientation to rotate from.
+    for id in final_ask_order:
+        nextIdLocation = ChangeHeadOrientation.define_orientation_by_id(id=id, participation_amount=participant_Amount)
+        currentlyIteratedOrientation = nextIdLocation
+        
+        if iterator == 1:
+            first_headOrientation = ChangeHeadOrientation.CreateStringCommand_HeadOrientation("look", currentPosition=globalCurrentHeadPosition, newPosition=nextIdLocation)
+
+        if iterator == 2:
+            second_headOrientation = ChangeHeadOrientation.CreateStringCommand_HeadOrientation("look", currentPosition=currentlyIteratedOrientation, newPosition=nextIdLocation)
+
+        if iterator == 3:
+            third_headOrientation = ChangeHeadOrientation.CreateStringCommand_HeadOrientation("look", currentPosition=currentlyIteratedOrientation, newPosition=nextIdLocation)
+
+        if iterator == 4:
+            fourth_headOrientation = ChangeHeadOrientation.CreateStringCommand_HeadOrientation("look", currentPosition=currentlyIteratedOrientation, newPosition=nextIdLocation)
+
+        iterator += 1
+            
+            
+
+def setGlobalHeadOrientation(newOrientation):
+    global globalCurrentHeadPosition
+    globalCurrentHeadPosition = newOrientation
 
     
 if __name__ == "__main__":
@@ -108,15 +153,17 @@ if __name__ == "__main__":
     #Participant ID 4 starts
     
 
-def LookForFaces_ReturnIDs(_duration):
-    start_time = time.time()  # Get the current time when recording starts
-    returned_Sorted_IDs = []
-    while time.time() - start_time < _duration:
-        temp_Sorted_IDs = MediapipePre.FindFaceAndAssignIDs(video=video)
-        for id in temp_Sorted_IDs:
-            returned_Sorted_IDs.append(id)
-        cv2.waitKey(1)
-        
-    return returned_Sorted_IDs
+# def LookForFaces_ReturnIDs(_duration):
+#     start_time = time.time()  # Get the current time when recording starts
+#     returned_Sorted_IDs = []
+#     while time.time() - start_time < _duration:
+#         temp_Sorted_IDs = MediapipePre.FindFaceAndAssignIDs(video=video)
+#         for id in temp_Sorted_IDs:
+#             returned_Sorted_IDs.append(id)
+#         cv2.waitKey(1)
+#         
+#     return returned_Sorted_IDs
+
+
 # def choosePersonToDiscuss(participantNumber):
-#     
+#    

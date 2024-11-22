@@ -11,7 +11,7 @@ DISCONNECT_MESSAGE = '!DISCONNECT'
 message_to_send = ""
 send_message = False
 
-Debugging = False
+Debugging = True
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind(ADDR)
@@ -32,7 +32,7 @@ def handle_client(conn, addr):
     conn.close()
     print(f'[CONNECTION CLOSED]')
 
-def start():
+def start_socket_streaming():
     server.listen()
     print(f'[LISTENING] server is listening on {SERVER}')
 
@@ -49,13 +49,13 @@ def send(conn, msg):
     conn.send(send_length)
     conn.send(message)
 
-def set_send_message(msg):
+def set_send_message(msg):      # Use this for Gestures (Maybe make a separate function for head rotations wherein the global currentGlobalHeadOrientation is set, so it is only updated when actually rotating/orienting the head of the robot)
     global message_to_send, send_message
     message_to_send = msg
     send_message = True
 
-start()
+# start_socket_streaming()
 
-while Debugging:
-    msg = input("Enter your message: ")
-    set_send_message(msg)
+# while Debugging:
+#     msg = input("Enter your message: ")
+#     set_send_message(msg)
