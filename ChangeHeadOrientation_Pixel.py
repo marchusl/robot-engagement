@@ -1,6 +1,6 @@
 
 
-def ChangeHeadOrientation_PixelCoordinate(pixelCoordinate, cameraResolution_width, cameraResolution_height):
+def PixelCoordinate_HeadOrientation(pixelCoordinate, cameraResolution_width, cameraResolution_height):
     
     #print(int(pixelCoordinate[0]))     #Pixel X coordinate
     #print(int(pixelCoordinate[1]))     #Pixel Y coordinate
@@ -17,3 +17,16 @@ def ChangeHeadOrientation_PixelCoordinate(pixelCoordinate, cameraResolution_widt
     if int(pixelCoordinate[1]) > int(cameraResolution_height / 2) + 150:
         print("FAR_DOWN")
     
+
+def CreateStringCommand_HeadOrientation(action, currentPosition, newPosition):
+    
+    if currentPosition != newPosition:
+        actionString = "[GESTURE] " + action + "-" + currentPosition + "-" + newPosition
+        return actionString
+    
+    elif currentPosition == newPosition:
+        print("Not an elligible string command for QTrobot's head-giving :o")
+    
+def CreateStringCommand_Nod(currentPosition):
+    actionstring = "[GESTURE] nod-" + currentPosition
+    return actionstring

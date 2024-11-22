@@ -30,7 +30,7 @@ def check_for_enter():
     stop_recording = True
     print("Enter pressed, stopping recording.")
 
-def record_audio(duration=15):
+def record_audio(duration):
     global stop_recording
     frames = []
     start_time = time.time()  # Get the current time when recording starts

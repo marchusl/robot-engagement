@@ -19,19 +19,19 @@ client = OpenAI()
 #         stream.write(chunk)
 
 
-def text_to_speech(_transcriptionText, consolePrintLimit_int):
+def text_to_speech(_transcriptionText):
     """Converts the provided text to speech and plays it."""
     p = pyaudio.PyAudio()
     stream = p.open(format=8,
                     channels=1,
                     rate=23000,
                     output=True)
-
+    
     try:
-        print(f"Starting TTS playback for: {_transcriptionText[:consolePrintLimit_int]}...")
+        print(f"Starting TTS playback for: {_transcriptionText[:]}...")
         with client.audio.speech.with_streaming_response.create(
                 model="tts-1",
-                voice="onyx",
+                voice="nova",      # Nova er nok den bedste. Next best er Alloy og Onyx
                 input=_transcriptionText,
                 response_format="pcm"
         ) as response:
