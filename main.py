@@ -3,6 +3,7 @@ import time
 import cv2
 
 import ChangeHeadOrientation
+import ServerScript
 from ServerScript import start_socket_streaming
 from Mic_Test import record_audio
 from STT_Transcription import transcribe_audio
@@ -79,15 +80,15 @@ def main():
     # Record audio using the record_audio function
     ChatGPT_Prompting.Add_System_Prompt_ChatGPT("The first participant is now starting their pitch presentation.")
     print("Starting the audio recording...")
-    saved_audio_file = record_audio(60)  # Records for specified amount of time in seconds in record_audio parameter and returns the saved file path
+    #saved_audio_file = record_audio(60)  # Records for specified amount of time in seconds in record_audio parameter and returns the saved file path
     # Transcribe the saved audio file
-    print(f"Transcribing the audio file: {saved_audio_file}")
-    transcription = transcribe_audio(saved_audio_file, participant_number=1)  # Pass participant number as needed
-    print("Participant 1 said: " + transcription)
+    #print(f"Transcribing the audio file: {saved_audio_file}")
+    #transcription = transcribe_audio(saved_audio_file, participant_number=1)  # Pass participant number as needed
+    #print("Participant 1 said: " + transcription)
     ChatGPT_Prompting.Add_System_Prompt_ChatGPT("The first participant has now finished their pitch presentation.")
     messagesList_participant_1.append({"role": "user", "content": ("Participant nr. 1 said: " + transcription)}) # Appends what the user just said in their transcription to their chatmessage list of everything they said and what ChatGPT responded to them
-    chatGPTresponse = ChatGPT_Prompting.Simple_PromptChatGPT_ReturnResponse(_promptMessage="Participant nr. 1 said: " + transcription, _messageRole="user")    #Pass participant 1 transcription to chatgpt.
-    TTS_Robot.text_to_speech(chatGPTresponse)
+    #chatGPTresponse = ChatGPT_Prompting.Simple_PromptChatGPT_ReturnResponse(_promptMessage="Participant nr. 1 said: " + transcription, _messageRole="user")    #Pass participant 1 transcription to chatgpt.
+    #TTS_Robot.text_to_speech(chatGPTresponse)
     # ------------------------------------------------------------------ #
 
 
@@ -112,19 +113,35 @@ def main():
         currentlyIteratedOrientation = nextIdLocation
         
         if iterator == 1:
-            first_headOrientation = ChangeHeadOrientation.CreateStringCommand_HeadOrientation("look", currentPosition=globalCurrentHeadPosition, newPosition=nextIdLocation)
+            if nextIdLocation == "neutral":
+                first_headOrientation = "QT/neutral"
+            else:
+                first_headOrientation = ChangeHeadOrientation.CreateStringCommand_HeadOrientation("look", currentPosition=globalCurrentHeadPosition, newPosition=nextIdLocation)
 
         if iterator == 2:
-            second_headOrientation = ChangeHeadOrientation.CreateStringCommand_HeadOrientation("look", currentPosition=currentlyIteratedOrientation, newPosition=nextIdLocation)
+            if nextIdLocation == "neutral":
+                second_headOrientation = "QT/neutral"
+            else:
+                second_headOrientation = ChangeHeadOrientation.CreateStringCommand_HeadOrientation("look", currentPosition=currentlyIteratedOrientation, newPosition=nextIdLocation)
 
         if iterator == 3:
-            third_headOrientation = ChangeHeadOrientation.CreateStringCommand_HeadOrientation("look", currentPosition=currentlyIteratedOrientation, newPosition=nextIdLocation)
+            if nextIdLocation == "neutral":
+                third_headOrientation = "QT/neutral"
+            else:
+                third_headOrientation = ChangeHeadOrientation.CreateStringCommand_HeadOrientation("look", currentPosition=currentlyIteratedOrientation, newPosition=nextIdLocation)
 
         if iterator == 4:
-            fourth_headOrientation = ChangeHeadOrientation.CreateStringCommand_HeadOrientation("look", currentPosition=currentlyIteratedOrientation, newPosition=nextIdLocation)
+            if nextIdLocation == "neutral":
+                fourth_headOrientation = "QT/neutral"
+            else:
+                fourth_headOrientation = ChangeHeadOrientation.CreateStringCommand_HeadOrientation("look", currentPosition=currentlyIteratedOrientation, newPosition=nextIdLocation)
 
         iterator += 1
-            
+
+    ServerScript.set_send_message(first_headOrientation)
+    ServerScript.set_send_message(second_headOrientation)
+    ServerScript.set_send_message(third_headOrientation)
+    ServerScript.set_send_message(fourth_headOrientation)
             
 
 def setGlobalHeadOrientation(newOrientation):
