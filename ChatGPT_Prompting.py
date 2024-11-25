@@ -9,10 +9,10 @@ allMessages = [{"role": "system", "content": startPrompt}]     #Initializing str
 def User_PromptChatGPT_ReturnResponse(_userChatList, _promptMessage, _messageRole):
     
     _userChatList.append({"role": _messageRole, "content": _promptMessage})      #Appends the current prompt message to the chat list input as an argument in the function's parameters. This is meant to be the chat list of what a specific has said and ChatGPT's responses to it.
-    #messages.append({"role": _messageRole, "content": _promptMessage})      #Append the message  to the global ChatGPT messages list, which is the chat list of everything that has been said by everyone (all users AND ChatGPT)
+    allMessages.append({"role": _messageRole, "content": _promptMessage})      #Append the message  to the global ChatGPT messages list, which is the chat list of everything that has been said by everyone (all users AND ChatGPT)
     
     chatCompletion = client.chat.completions.create(
-        model= "gpt-4o-mini",
+        model= "gpt-3.5-turbo", #gpt-4o-mini, gpt-3.5-turbo
         messages= _userChatList
     )
     

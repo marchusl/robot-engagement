@@ -10,27 +10,37 @@ CHANNELS = 1
 RATE = 16000
 CHUNK = 1024
 
-# Initialize PyAudio
-audio = pyaudio.PyAudio()
-
-# Open stream
-stream = audio.open(format=FORMAT,
-                    channels=CHANNELS,
-                    rate=RATE,
-                    input=True,
-                    frames_per_buffer=CHUNK)
+# # Initialize PyAudio
+# audio = pyaudio.PyAudio()
+# 
+# # Open stream
+# stream = audio.open(format=FORMAT,
+#                     channels=CHANNELS,
+#                     rate=RATE,
+#                     input=True,
+#                     frames_per_buffer=CHUNK)
 
 # Flag for stopping the recording
 stop_recording = False
 
 def check_for_enter():
     global stop_recording
-    print("Press Enter to stop recording early...")
-    keyboard.wait("enter")  # Wait for Enter key
+    print("Press Ctrl to stop recording early...")
+    keyboard.wait("Ctrl")  # Wait for Enter key
     stop_recording = True
-    print("Enter pressed, stopping recording.")
+    print("Ctrl pressed, stopping recording.")
 
 def record_audio(duration):
+    # Initialize PyAudio
+    audio = pyaudio.PyAudio()
+    
+    # Open stream
+    stream = audio.open(format=FORMAT,
+                        channels=CHANNELS,
+                        rate=RATE,
+                        input=True,
+                        frames_per_buffer=CHUNK)
+        
     global stop_recording
     frames = []
     start_time = time.time()  # Get the current time when recording starts
@@ -63,6 +73,9 @@ def record_audio(duration):
     return filename
 
 def save_audio(frames, filename="output.wav"):
+    # Initialize PyAudio
+    audio = pyaudio.PyAudio()
+    
     """ Save the recorded frames to an audio file """
     wf = wave.open(filename, 'wb')
     wf.setnchannels(CHANNELS)

@@ -1,6 +1,8 @@
 import pyaudio
 from openai import OpenAI
 
+from ServerScript import set_send_message
+
 client = OpenAI()
 
 # p = pyaudio.PyAudio()
@@ -19,7 +21,7 @@ client = OpenAI()
 #         stream.write(chunk)
 
 
-def text_to_speech(_transcriptionText):
+def text_to_speech_openai(_transcriptionText):
     """Converts the provided text to speech and plays it."""
     p = pyaudio.PyAudio()
     stream = p.open(format=8,
@@ -42,3 +44,7 @@ def text_to_speech(_transcriptionText):
         stream.close()
         p.terminate()
         print("TTS playback completed.")
+        
+
+def text_to_speech_robotlocal(_transcriptionText):
+    set_send_message("[TALK] " + _transcriptionText)

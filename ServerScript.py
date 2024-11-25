@@ -43,13 +43,13 @@ def listen_for_completions(conn):
         msg_length = int(msg_length)
         msg = conn.recv(msg_length).decode(FORMAT)
 
-        print(f'Confirmation recieved from client: {msg}')
+        print(f'Confirmation received from client: {msg}')
         service_in_progress = False
         # print(service_in_progress)
 
-        confirm_completion = msg
+        #confirm_completion = msg
 
-        return confirm_completion
+        #return confirm_completion
 
 def start_socket_streaming():
     server.listen()
