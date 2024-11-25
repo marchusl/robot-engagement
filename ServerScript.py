@@ -10,6 +10,7 @@ DISCONNECT_MESSAGE = '!DISCONNECT'
 
 message_to_send = ""
 send_message = False
+service_in_progress = False
 
 Debugging = True
 
@@ -25,12 +26,30 @@ def handle_client(conn, addr):
         if send_message:
             send(conn, message_to_send)
             send_message = False
+            listen_for_completions(conn)
             if message_to_send == DISCONNECT_MESSAGE:
                 connected = False
                 Debugging = False
 
     conn.close()
     print(f'[CONNECTION CLOSED]')
+
+def listen_for_completions(conn):
+    print(f'Listening for confirmation:')
+    global service_in_progress
+
+    msg_length = conn.recv(HEADER).decode(FORMAT)
+    if msg_length:
+        msg_length = int(msg_length)
+        msg = conn.recv(msg_length).decode(FORMAT)
+
+        print(f'Confirmation recieved from client: {msg}')
+        service_in_progress = False
+        # print(service_in_progress)
+
+        confirm_completion = msg
+
+        return confirm_completion
 
 def start_socket_streaming():
     server.listen()
@@ -50,12 +69,15 @@ def send(conn, msg):
     conn.send(message)
 
 def set_send_message(msg):      # Use this for Gestures (Maybe make a separate function for head rotations wherein the global currentGlobalHeadOrientation is set, so it is only updated when actually rotating/orienting the head of the robot)
-    global message_to_send, send_message
+    global message_to_send, send_message, service_in_progress
     message_to_send = msg
     send_message = True
+    service_in_progress = True
+    # print(service_in_progress)
 
-# start_socket_streaming()
+if __name__ == "__main__":
+    start_socket_streaming()
 
-# while Debugging:
-#     msg = input("Enter your message: ")
-#     set_send_message(msg)
+    while Debugging:
+        msg = input("Enter your message: ")
+        set_send_message(msg)
