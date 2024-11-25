@@ -23,12 +23,12 @@ def PixelCoordinate_HeadOrientation(pixelCoordinate, cameraResolution_width, cam
 
 def CreateStringCommand_HeadOrientation(action, currentPosition, newPosition):
     
-    if currentPosition != newPosition:
-        actionString = "[GESTURE] " + action + "-" + currentPosition + "-" + newPosition
-        return actionString
+    # if currentPosition != newPosition:
+    actionString = "[GESTURE] " + action + "-" + currentPosition + "-" + newPosition
+    return actionString
     
-    elif currentPosition == newPosition:
-        print("Not an elligible string command for QTrobot's head-giving :o")
+    # elif currentPosition == newPosition:
+    #     print("Current position equals new position...")
     
 def CreateStringCommand_Nod(currentPosition):
     actionstring = "[GESTURE] nod-" + currentPosition
@@ -67,3 +67,20 @@ def define_orientation_by_id(id, participation_amount):     # Method used for tr
                 headOrientation = "right"
             
     return headOrientation
+
+def NeutralPointing(id, participant_amount):
+    neutralAction = ""
+    if participant_amount == 3:
+        match id:
+            case "2":
+                neutralAction = "[GESTURE] lookpoint-leftarm"
+
+    if participant_amount == 4:
+        match id:
+            case "2":
+                neutralAction = "[GESTURE] lookpoint-leftarm"
+            case "3":
+                neutralAction = "[GESTURE] lookpoint-rightarm"
+            
+    
+    return neutralAction
