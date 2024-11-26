@@ -26,7 +26,7 @@ stop_recording = False
 def check_for_enter():
     global stop_recording
     print("Press Ctrl to stop recording early...")
-    keyboard.wait("Ctrl")  # Wait for Enter key
+    keyboard.wait("ctrl")  # Wait for Enter key
     stop_recording = True
     print("Ctrl pressed, stopping recording.")
 

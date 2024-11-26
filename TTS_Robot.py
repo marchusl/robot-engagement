@@ -33,7 +33,8 @@ def text_to_speech_openai(_transcriptionText):
         print(f"Starting TTS playback for: {_transcriptionText[:]}...")
         with client.audio.speech.with_streaming_response.create(
                 model="tts-1",
-                voice="nova",      # Nova er nok den bedste. Next best er Alloy og Onyx
+                voice="nova",      # Nova er nok den bedste. Next best er Alloy og 
+            
                 input=_transcriptionText,
                 response_format="pcm"
         ) as response:
@@ -48,3 +49,5 @@ def text_to_speech_openai(_transcriptionText):
 
 def text_to_speech_robotlocal(_transcriptionText):
     set_send_message("[TALK] " + _transcriptionText)
+    
+#text_to_speech_openai("Visdom ligger i at forstå, at de enkleste sandheder ofte er de mest dybsindige. Menneskets søgen efter mening er en rejse, ikke en destination, og svarene findes sjældent uden for os selv, men dybt i vores indre.")

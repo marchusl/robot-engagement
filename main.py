@@ -1,6 +1,7 @@
 import time
 
-import cv2
+#import cv2
+#import MediapipePre
 
 import ChangeHeadOrientation
 from ServerScript import set_send_message, send_message, start_socket_streaming
@@ -9,7 +10,7 @@ from Mic_Test import record_audio
 from STT_Transcription import transcribe_audio
 import TTS_Robot
 import ChatGPT_Prompting
-import MediapipePre
+
 
 
 #video = cv2.VideoCapture(0)
@@ -52,9 +53,19 @@ def main():
     set_send_message("[GESTURE] QT/neutral")
     print("service_in_progress: " + str(ServerScript.service_in_progress))
     
-    while ServerScript.service_in_progress == True:
+    while ServerScript.service_in_progress:
+        pass
+
+    ChatGPT_Prompting.Add_System_Prompt_ChatGPT(startingPrompt_ChatGPT)
+    #TTS_Robot.text_to_speech_robotlocal(introductionDialogue_qtRobot)
+    set_send_message("[TALK] " + introductionDialogue_qtRobot)
+    TTS_Robot.text_to_speech_openai(introductionDialogue_qtRobot)
+    while ServerScript.service_in_progress:
         pass
     
+    
+
+
     # def LookForFaces_ReturnIDs(_duration):
     #     start_time = time.time()  # Get the current time when recording starts
     #     returned_Sorted_IDs = []
@@ -68,13 +79,7 @@ def main():
     #     
     #     return returned_Sorted_IDs
     
-    ChatGPT_Prompting.Add_System_Prompt_ChatGPT(startingPrompt_ChatGPT)
-    #TTS_Robot.text_to_speech_robotlocal(introductionDialogue_qtRobot)
-    set_send_message("[TALK] " + introductionDialogue_qtRobot)
-    while ServerScript.service_in_progress == True:
-        pass
-    
-    
+
     #Testing Introduction dialogue by QT
     #TTS_Robot.text_to_speech(introductionDialogue_qtRobot_TESTING, 200)
     
@@ -118,7 +123,7 @@ def main():
         while ServerScript.service_in_progress:
             pass
             
-        #setGlobalHeadOrientation(currentComputedOrientation)
+        #setGlobalHeadOrientation(first_headOrientation)
         
         Pitch_StartParticipationRound(firstPrompt="The first participant is now starting their pitch presentation.",
                                       secondPrompt="The first participant has now finished their pitch presentation.",
@@ -134,7 +139,7 @@ def main():
         while ServerScript.service_in_progress:
             pass
         
-        #setGlobalHeadOrientation(currentComputedOrientation)
+        #setGlobalHeadOrientation(second_headOrientation)
         Pitch_StartParticipationRound(firstPrompt="The second participant is now starting their pitch presentation.",
                                       secondPrompt="The second participant has now finished their pitch presentation.",
                                       duration=10,
@@ -150,7 +155,7 @@ def main():
         set_send_message(third_headOrientation)
         while ServerScript.service_in_progress:
             pass
-        #setGlobalHeadOrientation(currentComputedOrientation)
+        #setGlobalHeadOrientation(third_headOrientation)
         
         Pitch_StartParticipationRound(firstPrompt="The third participant is now starting their pitch presentation.",
                                       secondPrompt="The third participant has now finished their pitch presentation.",
@@ -166,9 +171,9 @@ def main():
         set_send_message(fourth_headOrientation)
         while ServerScript.service_in_progress:
             pass
-        #setGlobalHeadOrientation(currentComputedOrientation)
+        #setGlobalHeadOrientation(fourth_headOrientation)
+        
         Pitch_StartParticipationRound(firstPrompt="The fourth participant is now starting their pitch presentation.",
-                                      
                                       secondPrompt="The fourth participant has now finished their pitch presentation.",
                                       duration=10,
                                       currentParticipantNumber=4,
@@ -206,38 +211,60 @@ def main():
     print(third_headOrientation)
     print(fourth_headOrientation)
     
-    
+    #Introducing the Discussion Round
+    TTS_Robot.text_to_speech_openai("PLACEHOLDER TEXT FOR INTRODUCING DISCUSSION ROUND")
     TTS_Robot.text_to_speech_robotlocal("PLACEHOLDER TEXT FOR INTRODUCING DISCUSSION ROUND")
+    while ServerScript.service_in_progress:
+        pass
     
-    # First participant in Discussion Round
-    set_send_message(first_headOrientation)
-    time.sleep(1.5)
-    TTS_Robot.text_to_speech_robotlocal("PLACEHOLDER TEXT FOR TELLING THIS PARTICIPANT THAT THEY ARE THE FIRST ONE TO START")
-    chatgptResponse = ChatGPT_Prompting.User_PromptChatGPT_ReturnResponse(messagesList_participant_1, "Participant nr. 1 said: ", "system")
-    TTS_Robot.text_to_speech_robotlocal(chatgptResponse)
-    time.sleep(5)
+    #participantIntroductionText = ""
     
-    # Second participant in Discussion Round
-    set_send_message(second_headOrientation)
-    time.sleep(1.5)
-    TTS_Robot.text_to_speech_robotlocal("PLACEHOLDER TEXT FOR TELLING THIS PARTICIPANT THAT THEY ARE THE SECOND ONE TO START")
-    chatgptResponse = ChatGPT_Prompting.User_PromptChatGPT_ReturnResponse(messagesList_participant_2, "Participant nr. 2 said: ", "system")
-    TTS_Robot.text_to_speech_robotlocal(chatgptResponse)
-    time.sleep(5)
+    # # First participant in Discussion Round
+    # set_send_message(first_headOrientation)
+    # while ServerScript.service_in_progress:
+    #     pass
+    # 
+    # TTS_Robot.text_to_speech_openai("PLACEHOLDER TEXT FOR TELLING THIS PARTICIPANT THAT THEY ARE THE FIRST ONE TO START")
+    # TTS_Robot.text_to_speech_robotlocal("PLACEHOLDER TEXT FOR TELLING THIS PARTICIPANT THAT THEY ARE THE FIRST ONE TO START")
+    # while ServerScript.service_in_progress:
+    #     pass
+    # 
+    # chatgptResponse = ChatGPT_Prompting.User_PromptChatGPT_ReturnResponse(messagesList_participant_1, "Participant nr. 1 said: ", "system")
+    # TTS_Robot.text_to_speech_openai(chatgptResponse)
+    # TTS_Robot.text_to_speech_robotlocal(chatgptResponse)
+    # while ServerScript.service_in_progress:
+    #     pass
+    if participant_Amount >= 2:
+        Discussion_StartParticipantRound(_storedHeadOrientation=first_headOrientation, 
+                                         _participantMessageList=messagesList_participant_1, 
+                                         _participantNumber=final_ask_order[0], 
+                                         _participantIntroductionText="Du bliver den første til at starte her i diskussions-runden. Du kan bare begynde.", 
+                                         _recordDuration=10)
+        time.sleep(3)
+        
+        # Second participant in Discussion Round
+        Discussion_StartParticipantRound(_storedHeadOrientation=second_headOrientation,
+                                         _participantMessageList=messagesList_participant_2,
+                                         _participantNumber=final_ask_order[1],
+                                         _participantIntroductionText="Så er det din tur til at starte. Du kan bare begynde.",
+                                         _recordDuration=10)
+        time.sleep(3)
     
-    set_send_message(third_headOrientation)
-    time.sleep(1.5)
-    TTS_Robot.text_to_speech_robotlocal("PLACEHOLDER TEXT FOR TELLING THIS PARTICIPANT THAT THEY ARE THE THIRD ONE TO START")
-    chatgptResponse = ChatGPT_Prompting.User_PromptChatGPT_ReturnResponse(messagesList_participant_3, "Participant nr. 3 said: ", "system")
-    TTS_Robot.text_to_speech_robotlocal(chatgptResponse)
-    time.sleep(5)
+    if participant_Amount >= 3:
+        Discussion_StartParticipantRound(_storedHeadOrientation=third_headOrientation,
+                                         _participantMessageList=messagesList_participant_3,
+                                         _participantNumber=final_ask_order[2],
+                                         _participantIntroductionText="Og så er det din tur, vi glæder os til at høre hvad du har at sige. Du begynder bare.",
+                                         _recordDuration=10)
+        time.sleep(3)
+    if participant_Amount >= 4:
+        Discussion_StartParticipantRound(_storedHeadOrientation=fourth_headOrientation,
+                                         _participantMessageList=messagesList_participant_4,
+                                         _participantNumber=final_ask_order[3],
+                                         _participantIntroductionText="Sidste men ikke mindst, så er det dig! Du kan bare begynde.",
+                                         _recordDuration=10)
+        time.sleep(3)
     
-    set_send_message(fourth_headOrientation)
-    time.sleep(1.5)
-    TTS_Robot.text_to_speech_robotlocal("PLACEHOLDER TEXT FOR TELLING THIS PARTICIPANT THAT THEY ARE THE FOURTH ONE TO START")
-    chatgptResponse = ChatGPT_Prompting.User_PromptChatGPT_ReturnResponse(messagesList_participant_4, "Participant nr. 4 said: ", "system")
-    TTS_Robot.text_to_speech_robotlocal(chatgptResponse)
-    time.sleep(5)
     
     # while send_message == False:
     #     set_send_message(second_headOrientation)
@@ -246,8 +273,10 @@ def main():
     # while send_message == False:
     #     set_send_message(fourth_headOrientation)
             
+#------------------------------------------------------------------------------------------------------ END OF MAIN DEF ----------------------------------------------------------------------------------------------------------------------------------------
 
 def setGlobalHeadOrientation(newOrientation):
+    #newOrientation.find()
     global globalCurrentHeadPosition
     globalCurrentHeadPosition = newOrientation
 
@@ -269,9 +298,43 @@ def Pitch_StartParticipationRound(firstPrompt, secondPrompt, currentParticipantN
     messageList.append({"role": "user", "content": ("Robot response: " + chatGPTresponse)})
 
     # Make TTS Openai request
-    # TTS_Robot.text_to_speech(chatGPTresponse)
     set_send_message("[TALK] " + chatGPTresponse)
+    TTS_Robot.text_to_speech_openai(chatGPTresponse)
+    while ServerScript.service_in_progress:
+        pass
     roundDoneBool = True
+    
+    
+def Discussion_StartParticipantRound(_storedHeadOrientation, _participantMessageList, _participantNumber, _participantIntroductionText, _recordDuration):
+    # First participant in Discussion Round
+    set_send_message(_storedHeadOrientation)
+    while ServerScript.service_in_progress:
+        pass
+
+    TTS_Robot.text_to_speech_openai(_participantIntroductionText)
+    TTS_Robot.text_to_speech_robotlocal(_participantIntroductionText)
+    while ServerScript.service_in_progress:
+        pass
+    
+    #AUDIO RECORDING
+    print("Starting the audio recording...")
+    saved_audio_file = record_audio(_recordDuration)  # Records for specified amount of time in seconds in record_audio parameter and returns the saved file path
+
+    # Transcribe the saved audio file
+    #print(f"Transcribing the audio file: {saved_audio_file}")
+    transcription = transcribe_audio(saved_audio_file, participant_number=_participantNumber)  # Pass participant number as needed
+    print("Participant " + str(_participantNumber) + " said: " + transcription)
+    #END OF AUDIO RECORDING
+    _participantMessageList.append({"role": "user", "content": ("Participant nr. " + str(_participantNumber) + " said: " + transcription)}) # Appends what the user just said in their transcription to their chatmessage list of everything they said and what ChatGPT responded to them
+    
+    chatgptResponse = ChatGPT_Prompting.Simple_PromptChatGPT_ReturnResponse(_promptMessage="Participant nr. " + str(_participantNumber) + " said: " + transcription, _messageRole="system")
+    _participantMessageList.append({"role": "user", "content": ("Robot response: " + chatgptResponse)})
+    
+    TTS_Robot.text_to_speech_openai(chatgptResponse)
+    TTS_Robot.text_to_speech_robotlocal(chatgptResponse)
+    while ServerScript.service_in_progress:
+        pass
+    
     
 def Generate_Head_Orientations(ask_order, _participant_Amount):
     first_headOrientation = ""
@@ -280,7 +343,7 @@ def Generate_Head_Orientations(ask_order, _participant_Amount):
     fourth_headOrientation = ""
     
     iterator = 0
-    currentlyIteratedOrientation = ""   # Used for storing the head orientation "calculated" in the current for loop iteration, so the next head orientations know which orientation to rotate from.
+    currentlyIteratedOrientation = ""   # Used for storing the head orientation "calculated" in the current for loop iteration, so the next head orientations can still store which orientation to rotate from.
     
     for id in ask_order:
         nextIdLocation = ChangeHeadOrientation.define_orientation_by_id(id=id, participation_amount=_participant_Amount)
@@ -313,6 +376,10 @@ def Generate_Head_Orientations(ask_order, _participant_Amount):
         currentlyIteratedOrientation = nextIdLocation
         iterator += 1
     return first_headOrientation, second_headOrientation, third_headOrientation, fourth_headOrientation
+
+
+def HeadNodForDuration():
+    set_send_message("[NOD]")
     
     
 if __name__ == "__main__":
