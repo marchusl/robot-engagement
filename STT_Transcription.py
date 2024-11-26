@@ -1,5 +1,6 @@
 from openai import OpenAI
 import os
+import datetime
 
 client = OpenAI()
 
@@ -29,3 +30,13 @@ def transcribe_audio(file_path, participant_number):
 
     except Exception as e:
         print(f"Error during transcription: {e}")
+
+def saveFullDiscussion(fullList):
+    my_list = fullList
+    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    filename = f"output_{timestamp}.txt"
+    with open(filename, "w") as file:
+        for line in my_list:
+            file.write(line + "\n")
+
+    print(f"File saved as: {filename}")
