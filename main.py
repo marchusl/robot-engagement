@@ -15,13 +15,14 @@ import ChatGPT_Prompting
 
 #video = cv2.VideoCapture(0)
 
-startingPrompt_ChatGPT = ("You are embodying a robot that is communicating verbally and is supposed to help a group of 3-4 students evaluate and build upon their current ideas for a project regarding the main topic 'The Modern Youth'." + 
+startingPrompt_ChatGPT = ("You are embodying a robot that is communicating verbally and is supposed to help a group of 3-4 students evaluate and build upon their current ideas for a project regarding the main topic 'Den Moderne Ungdom'." + 
                           "You will first listen to each student's pitch of their idea. When every student/participant has done their pitch, you will give feedback that can help them improve or build upon their ideas in regards to the main topic. Do this within a maximum of 100 words." +
                           "Remember to be jolly and motivating when giving this feedback to the students, highlighting interesting points about their individual ideas." +
                           "Your responses should be in Danish. Your feedback cannot ask further questions, since it is final statement to their statement, therefore only rhetorical or reflective questions are allowed that can help the participant in deeper reflection of their idea(s)." +
                           "Do not correlate the student's idea pitch to outside sources too much, but instead refer to overarching sources useful for their general research in coherence with what they said.")
 
-introductionDialogue_qtRobot = "Hej alle sammen! Vi skal spille et idé-genereringsspil! Alle får et minut til at fortælle om deres idé. Personen længst til venstre for mig starter."
+introductionDialogue_qtRobot = ("Hej alle sammen! Mit navn er Aria, og jeg er her i dag for at hjælpe jer med idéer til jeres projektarbejde. Som den første del af opgaven får I et minut til at skrive så mange idéer ned som muligt, hvor I så til sidst skal udvælge jeres bedste idé, som I kort vil præsentere for resten af gruppen. "
+                                "Tiden begynder om tre... To... En... Nu.")
 
 #introductionDialogue_qtRobot_TESTING = "Hej vi begynder nu okay."
 
@@ -55,14 +56,20 @@ def main():
     
     while ServerScript.service_in_progress:
         pass
-
+    #brainstormingIntroductionDialogue = "Hej allesammen! "
+    #TTS_Robot.text_to_speech_openai(brainstormingIntroductionDialogue)
+    #TTS_Robot.text_to_speech_robotlocal(brainstormingIntroductionDialogue)
+    
+    
     ChatGPT_Prompting.Add_System_Prompt_ChatGPT(startingPrompt_ChatGPT)
     #TTS_Robot.text_to_speech_robotlocal(introductionDialogue_qtRobot)
     set_send_message("[TALK] " + introductionDialogue_qtRobot)
     TTS_Robot.text_to_speech_openai(introductionDialogue_qtRobot)
     while ServerScript.service_in_progress:
         pass
+    set_send_message("[GESTURE] QT/happy")
     
+    time.sleep(5)  # Time set for brainstorming
     
 
 
@@ -113,36 +120,63 @@ def main():
 
     ask_order = ask_order.split(",")
     first_headOrientation, second_headOrientation, third_headOrientation, fourth_headOrientation = Generate_Head_Orientations(ask_order, participant_Amount)
+
+    PitchIntroductionDialogue_qtRobot = ("Så er tiden desvære gået. Nu glæder jeg mig super meget til at høre jeres idéer. "
+                                         "Vi starter fra min venstre side og kører mod højre. Når jeg peger på jer, så har I ét minut til at forklare jeres valgte idé til gruppen, "
+                                         "hvorefter vi går videre til den næste indtil alle har fortalt om deres idé.")
+    
+    set_send_message("[TALK] " + PitchIntroductionDialogue_qtRobot)
+    TTS_Robot.text_to_speech_openai(PitchIntroductionDialogue_qtRobot)
+    while ServerScript.service_in_progress:
+        pass
     
     # _______________FIRST PARTICIPANT_________________
     if participant_Amount <= 1:
         print("ERROR: The amount of participants have to be 2 or more.")
     if participant_Amount >= 2:
         
+        #----------------------- FIRST PARTICIPANT ----------------------#
         set_send_message(first_headOrientation)
         while ServerScript.service_in_progress:
             pass
             
         #setGlobalHeadOrientation(first_headOrientation)
         
+        # Introduce the participant
+        _introduceParticipantDialogue = "Først vil jeg gerne høre hvad du har tænkt over. Du må gerne begynde nu."
+        set_send_message("[TALK] " + _introduceParticipantDialogue)
+        TTS_Robot.text_to_speech_openai(_introduceParticipantDialogue)
+        while ServerScript.service_in_progress:
+            pass
+        
+        set_send_message("[NOD] nod-" + ServerScript.current_head_position)
+        
         Pitch_StartParticipationRound(firstPrompt="The first participant is now starting their pitch presentation.",
                                       secondPrompt="The first participant has now finished their pitch presentation.",
-                                      duration=10,
+                                      duration=60,
                                       currentParticipantNumber=1,
                                       messageList=messagesList_participant_1,
                                       roundDoneBool=pitch_firstPitchDone)
         while ServerScript.service_in_progress:
             pass
         
-        
+        #---------------------- SECOND PARTICIPANT ----------------------#
         set_send_message(second_headOrientation)
         while ServerScript.service_in_progress:
             pass
         
         #setGlobalHeadOrientation(second_headOrientation)
+        # Introduce the participant
+        _introduceParticipantDialogue = "Og nu skal vi videre og høre hvad du har tænkt på. Du må gerne begynde nu."
+        set_send_message("[TALK] " + _introduceParticipantDialogue)
+        TTS_Robot.text_to_speech_openai(_introduceParticipantDialogue)
+        while ServerScript.service_in_progress:
+            pass
+        
+        set_send_message("[NOD] nod-" + ServerScript.current_head_position)
         Pitch_StartParticipationRound(firstPrompt="The second participant is now starting their pitch presentation.",
                                       secondPrompt="The second participant has now finished their pitch presentation.",
-                                      duration=10,
+                                      duration=60,
                                       currentParticipantNumber=2,
                                       messageList=messagesList_participant_2,
                                       roundDoneBool=pitch_secondPitchDone)
@@ -156,10 +190,16 @@ def main():
         while ServerScript.service_in_progress:
             pass
         #setGlobalHeadOrientation(third_headOrientation)
-        
+        # Introduce the participant
+        _introduceParticipantDialogue = "Så blev det DIN tur til at fortælle om din sikkert spændende idé. Du kan bare begynde."
+        set_send_message("[TALK] " + _introduceParticipantDialogue)
+        TTS_Robot.text_to_speech_openai(_introduceParticipantDialogue)
+        while ServerScript.service_in_progress:
+            pass
+        set_send_message("[NOD] nod-" + ServerScript.current_head_position)
         Pitch_StartParticipationRound(firstPrompt="The third participant is now starting their pitch presentation.",
                                       secondPrompt="The third participant has now finished their pitch presentation.",
-                                      duration=10,
+                                      duration=60,
                                       currentParticipantNumber=3,
                                       messageList=messagesList_participant_3,
                                       roundDoneBool=pitch_thirdPitchDone)
@@ -172,10 +212,16 @@ def main():
         while ServerScript.service_in_progress:
             pass
         #setGlobalHeadOrientation(fourth_headOrientation)
-        
+        # Introduce the participant
+        _introduceParticipantDialogue = "Sidst men ikke mindst skal vi høre hvad DU har tænkt på. Du må gerne begynde nu."
+        set_send_message("[TALK] " + _introduceParticipantDialogue)
+        TTS_Robot.text_to_speech_openai(_introduceParticipantDialogue)
+        while ServerScript.service_in_progress:
+            pass
+        set_send_message("[NOD] nod-" + ServerScript.current_head_position)
         Pitch_StartParticipationRound(firstPrompt="The fourth participant is now starting their pitch presentation.",
                                       secondPrompt="The fourth participant has now finished their pitch presentation.",
-                                      duration=10,
+                                      duration=60,
                                       currentParticipantNumber=4,
                                       messageList=messagesList_participant_4,
                                       roundDoneBool=pitch_fourthPitchDone)
@@ -212,10 +258,20 @@ def main():
     print(fourth_headOrientation)
     
     #Introducing the Discussion Round
-    TTS_Robot.text_to_speech_openai("PLACEHOLDER TEXT FOR INTRODUCING DISCUSSION ROUND")
-    TTS_Robot.text_to_speech_robotlocal("PLACEHOLDER TEXT FOR INTRODUCING DISCUSSION ROUND")
+    set_send_message("[TALK] Tak for alle jeres spændende idéer! Nu kunne jeg godt tænke mig at vi gik lidt mere i dybden med jeres forslag og potentielt få jer til at overveje hvordan I kunne arbejde videre med dem i jeres projekter.")
+    TTS_Robot.text_to_speech_openai("Tak for alle jeres spændende idéer! Nu kunne jeg godt tænke mig at vi gik lidt mere i dybden med jeres forslag og potentielt få jer til at overveje hvordan I kunne arbejde videre med dem i jeres projekter.")
     while ServerScript.service_in_progress:
         pass
+    
+    ChatGPT_Prompting.Add_System_Prompt_ChatGPT("Now all participants have given their idea pitch from their brainstorming session. "
+                                                "It is now time to discuss the participants' individual ideas together. You are the facilitator of the discussion who will be firstly summarizing their idea pitch followed by asking one question to each participant. "
+                                                "The question will have to relate to the general topic 'Den moderne ungdom', and the other participants' ideas. It should also be contained within 100 words. "
+                                                "Only refer to the participants by what they have said, and do NOT use words like 'participant' or their participant numbers. Formulate yourself in Danish."
+                                                "You will be able to ask the question in three different ways, which are as follows: "
+                                                "'Linking' - Link two ideas together. "
+                                                "'Hypothetical' - Reflect on the idea in another context. "
+                                                "'Cause and effect' - Reflect on the specific causes and effects of the idea. "
+                                                "'Extension' - Further explain how the idea would work in practice. ")
     
     #participantIntroductionText = ""
     
@@ -235,35 +291,41 @@ def main():
     # while ServerScript.service_in_progress:
     #     pass
     if participant_Amount >= 2:
-        Discussion_StartParticipantRound(_storedHeadOrientation=first_headOrientation, 
+        Discussion_StartParticipantRound(_storedHeadOrientation=first_headOrientation,
                                          _participantMessageList=messagesList_participant_1, 
                                          _participantNumber=final_ask_order[0], 
-                                         _participantIntroductionText="Du bliver den første til at starte her i diskussions-runden. Du kan bare begynde.", 
-                                         _recordDuration=10)
+                                         #_participantIntroductionText="Du bliver den første til at starte her i diskussions-runden. Du kan bare begynde.", 
+                                         _recordDuration=60,
+                                         _questionType="'Linking'")
         time.sleep(3)
         
         # Second participant in Discussion Round
         Discussion_StartParticipantRound(_storedHeadOrientation=second_headOrientation,
                                          _participantMessageList=messagesList_participant_2,
                                          _participantNumber=final_ask_order[1],
-                                         _participantIntroductionText="Så er det din tur til at starte. Du kan bare begynde.",
-                                         _recordDuration=10)
+                                         #_participantIntroductionText="Så er det din tur til at starte. Du kan bare begynde.",
+                                         _recordDuration=60,
+                                         _questionType="'Hypothetical'")
         time.sleep(3)
     
     if participant_Amount >= 3:
         Discussion_StartParticipantRound(_storedHeadOrientation=third_headOrientation,
                                          _participantMessageList=messagesList_participant_3,
                                          _participantNumber=final_ask_order[2],
-                                         _participantIntroductionText="Og så er det din tur, vi glæder os til at høre hvad du har at sige. Du begynder bare.",
-                                         _recordDuration=10)
+                                         #_participantIntroductionText="Og så er det din tur, vi glæder os til at høre hvad du har at sige. Du begynder bare.",
+                                         _recordDuration=60,
+                                         _questionType="'Cause and effect'")
         time.sleep(3)
     if participant_Amount >= 4:
         Discussion_StartParticipantRound(_storedHeadOrientation=fourth_headOrientation,
                                          _participantMessageList=messagesList_participant_4,
                                          _participantNumber=final_ask_order[3],
-                                         _participantIntroductionText="Sidste men ikke mindst, så er det dig! Du kan bare begynde.",
-                                         _recordDuration=10)
+                                         #_participantIntroductionText="Sidste men ikke mindst, så er det dig! Du kan bare begynde.",
+                                         _recordDuration=60,
+                                         _questionType="'Extension'")
         time.sleep(3)
+    
+    
     
     
     # while send_message == False:
@@ -272,7 +334,6 @@ def main():
     #     set_send_message(third_headOrientation)
     # while send_message == False:
     #     set_send_message(fourth_headOrientation)
-            
 #------------------------------------------------------------------------------------------------------ END OF MAIN DEF ----------------------------------------------------------------------------------------------------------------------------------------
 
 def setGlobalHeadOrientation(newOrientation):
@@ -283,6 +344,9 @@ def setGlobalHeadOrientation(newOrientation):
 def Pitch_StartParticipationRound(firstPrompt, secondPrompt, currentParticipantNumber, messageList, duration, roundDoneBool):
     roundDoneBool = False
     ChatGPT_Prompting.Add_System_Prompt_ChatGPT(firstPrompt)
+    
+    
+    
     # Record audio using the record_audio function
     print("Starting the audio recording...")
     saved_audio_file = record_audio(duration)  # Records for specified amount of time in seconds in record_audio parameter and returns the saved file path
@@ -305,16 +369,22 @@ def Pitch_StartParticipationRound(firstPrompt, secondPrompt, currentParticipantN
     roundDoneBool = True
     
     
-def Discussion_StartParticipantRound(_storedHeadOrientation, _participantMessageList, _participantNumber, _participantIntroductionText, _recordDuration):
-    # First participant in Discussion Round
-    set_send_message(_storedHeadOrientation)
-    while ServerScript.service_in_progress:
-        pass
+def Discussion_StartParticipantRound(_storedHeadOrientation, _participantMessageList, _participantNumber, _questionType, _recordDuration):
 
-    TTS_Robot.text_to_speech_openai(_participantIntroductionText)
-    TTS_Robot.text_to_speech_robotlocal(_participantIntroductionText)
+    
+    set_send_message(_storedHeadOrientation)    # Setting the head orientation for the robot
     while ServerScript.service_in_progress:
         pass
+    
+    
+    _participantFeedback = ChatGPT_Prompting.Simple_PromptChatGPT_ReturnResponse(_promptMessage="You are now talking to Participant " + _participantNumber + ". Quickly summarize their pitch (less than 30 words) and then ask one " + _questionType + " question based on their pitch in relation to the pitches from the other participants.", 
+                                                                                        _messageRole="system")
+
+    set_send_message("[TALK] " + _participantFeedback)
+    TTS_Robot.text_to_speech_openai(_participantFeedback)
+    while ServerScript.service_in_progress:
+        pass
+    
     
     #AUDIO RECORDING
     print("Starting the audio recording...")
@@ -325,13 +395,17 @@ def Discussion_StartParticipantRound(_storedHeadOrientation, _participantMessage
     transcription = transcribe_audio(saved_audio_file, participant_number=_participantNumber)  # Pass participant number as needed
     print("Participant " + str(_participantNumber) + " said: " + transcription)
     #END OF AUDIO RECORDING
+    
+    ChatGPT_Prompting.Add_System_Prompt_ChatGPT("The participant has now answered your question. Make a simple affirming answer to their statement, recognizing what they said.")
+    
     _participantMessageList.append({"role": "user", "content": ("Participant nr. " + str(_participantNumber) + " said: " + transcription)}) # Appends what the user just said in their transcription to their chatmessage list of everything they said and what ChatGPT responded to them
     
-    chatgptResponse = ChatGPT_Prompting.Simple_PromptChatGPT_ReturnResponse(_promptMessage="Participant nr. " + str(_participantNumber) + " said: " + transcription, _messageRole="system")
-    _participantMessageList.append({"role": "user", "content": ("Robot response: " + chatgptResponse)})
+    chatgptResponse_1 = ChatGPT_Prompting.Simple_PromptChatGPT_ReturnResponse(_promptMessage="Participant nr. " + str(_participantNumber) + " said: " + transcription, _messageRole="user")
+    _participantMessageList.append({"role": "assistant", "content": ("Robot response: " + chatgptResponse_1)})
     
-    TTS_Robot.text_to_speech_openai(chatgptResponse)
-    TTS_Robot.text_to_speech_robotlocal(chatgptResponse)
+    
+    set_send_message("[TALK] " + chatgptResponse_1)
+    TTS_Robot.text_to_speech_openai(chatgptResponse_1)
     while ServerScript.service_in_progress:
         pass
     
@@ -352,7 +426,7 @@ def Generate_Head_Orientations(ask_order, _participant_Amount):
             if nextIdLocation == "neutral":
                 first_headOrientation = ChangeHeadOrientation.NeutralPointing(id, _participant_Amount)
             else:
-                first_headOrientation = ChangeHeadOrientation.CreateStringCommand_HeadOrientation("lookpoint", currentPosition=globalCurrentHeadPosition, newPosition=nextIdLocation)
+                first_headOrientation = ChangeHeadOrientation.CreateStringCommand_HeadOrientation("lookpoint", currentPosition=ServerScript.current_head_position, newPosition=nextIdLocation)
 
 
         if iterator == 1:

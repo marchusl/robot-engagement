@@ -25,10 +25,10 @@ stop_recording = False
 
 def check_for_enter():
     global stop_recording
-    print("Press Ctrl to stop recording early...")
-    keyboard.wait("ctrl")  # Wait for Enter key
+    print("Press Space to stop recording early...")
+    keyboard.wait("space")  # Wait for Enter key
     stop_recording = True
-    print("Ctrl pressed, stopping recording.")
+    print("Space pressed, stopping recording.")
 
 def record_audio(duration):
     # Initialize PyAudio
@@ -42,6 +42,7 @@ def record_audio(duration):
                         frames_per_buffer=CHUNK)
         
     global stop_recording
+    stop_recording = False
     frames = []
     start_time = time.time()  # Get the current time when recording starts
 

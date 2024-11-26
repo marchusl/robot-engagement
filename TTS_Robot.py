@@ -38,7 +38,7 @@ def text_to_speech_openai(_transcriptionText):
                 input=_transcriptionText,
                 response_format="pcm"
         ) as response:
-            for chunk in response.iter_bytes(1024):
+            for chunk in response.iter_bytes(2048):
                 stream.write(chunk)
     finally:
         stream.stop_stream()
@@ -51,3 +51,4 @@ def text_to_speech_robotlocal(_transcriptionText):
     set_send_message("[TALK] " + _transcriptionText)
     
 #text_to_speech_openai("Visdom ligger i at forstå, at de enkleste sandheder ofte er de mest dybsindige. Menneskets søgen efter mening er en rejse, ikke en destination, og svarene findes sjældent uden for os selv, men dybt i vores indre.")
+#text_to_speech_openai("Hej mit navn er Aria.")

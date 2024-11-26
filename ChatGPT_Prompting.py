@@ -12,7 +12,7 @@ def User_PromptChatGPT_ReturnResponse(_userChatList, _promptMessage, _messageRol
     allMessages.append({"role": _messageRole, "content": _promptMessage})      #Append the message  to the global ChatGPT messages list, which is the chat list of everything that has been said by everyone (all users AND ChatGPT)
     
     chatCompletion = client.chat.completions.create(
-        model= "gpt-3.5-turbo", #gpt-4o-mini, gpt-3.5-turbo
+        model= "gpt-4o-mini", #gpt-4o-mini, gpt-3.5-turbo
         messages= _userChatList
     )
     
@@ -29,7 +29,7 @@ def Simple_PromptChatGPT_ReturnResponse(_promptMessage, _messageRole):
     allMessages.append({"role": _messageRole, "content": _promptMessage})      #Append the message  to the global ChatGPT messages list, which is the chat list of everything that has been said by everyone (all users AND ChatGPT)
 
     chatCompletion = client.chat.completions.create(
-        model= "gpt-3.5-turbo", #gpt-4o-mini, gpt-3.5-turbo
+        model= "gpt-4o-mini", #gpt-4o-mini, gpt-3.5-turbo
         messages= allMessages
     )
 
