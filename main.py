@@ -4,6 +4,7 @@ import time
 #import MediapipePre
 
 import ChangeHeadOrientation
+import STT_Transcription
 from ServerScript import set_send_message, send_message, start_socket_streaming
 import ServerScript
 from Mic_Test import record_audio
@@ -39,7 +40,7 @@ pitch_fourthPitchDone = bool
 sorted_participant_IDs = []
 faceCenterPixels = []
 
-participant_Amount = 4
+participant_Amount = 2
 
 # Used for orienting the head
 globalCurrentHeadPosition = "neutral"   # The middle input in the action string sent through socketstreaming.
@@ -334,7 +335,24 @@ def main():
     #     set_send_message(third_headOrientation)
     # while send_message == False:
     #     set_send_message(fourth_headOrientation)
+
+    Conclude_Session()
+    
+    STT_Transcription.saveFullDiscussion(str(ChatGPT_Prompting.allMessages))
+    
+    
+    
+    
+    
+    
 #------------------------------------------------------------------------------------------------------ END OF MAIN DEF ----------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
 
 def setGlobalHeadOrientation(newOrientation):
     #newOrientation.find()
@@ -371,21 +389,18 @@ def Pitch_StartParticipationRound(firstPrompt, secondPrompt, currentParticipantN
     
 def Discussion_StartParticipantRound(_storedHeadOrientation, _participantMessageList, _participantNumber, _questionType, _recordDuration):
 
-    
     set_send_message(_storedHeadOrientation)    # Setting the head orientation for the robot
     while ServerScript.service_in_progress:
         pass
     
-    
     _participantFeedback = ChatGPT_Prompting.Simple_PromptChatGPT_ReturnResponse(_promptMessage="You are now talking to Participant " + _participantNumber + ". Quickly summarize their pitch (less than 30 words) and then ask one " + _questionType + " question based on their pitch in relation to the pitches from the other participants.", 
                                                                                         _messageRole="system")
-
     set_send_message("[TALK] " + _participantFeedback)
     TTS_Robot.text_to_speech_openai(_participantFeedback)
     while ServerScript.service_in_progress:
         pass
-    
-    
+
+    set_send_message("[NOD] nod-" + ServerScript.current_head_position)     # Make the robot nod in affirmation to what is said.
     #AUDIO RECORDING
     print("Starting the audio recording...")
     saved_audio_file = record_audio(_recordDuration)  # Records for specified amount of time in seconds in record_audio parameter and returns the saved file path
@@ -396,7 +411,7 @@ def Discussion_StartParticipantRound(_storedHeadOrientation, _participantMessage
     print("Participant " + str(_participantNumber) + " said: " + transcription)
     #END OF AUDIO RECORDING
     
-    ChatGPT_Prompting.Add_System_Prompt_ChatGPT("The participant has now answered your question. Make a simple affirming answer to their statement, recognizing what they said.")
+    ChatGPT_Prompting.Add_System_Prompt_ChatGPT("The participant has now answered your question. Make a simple affirming answer to their statement, recognizing what they said, but without asking further questions until prompted to do so.")
     
     _participantMessageList.append({"role": "user", "content": ("Participant nr. " + str(_participantNumber) + " said: " + transcription)}) # Appends what the user just said in their transcription to their chatmessage list of everything they said and what ChatGPT responded to them
     
@@ -450,6 +465,22 @@ def Generate_Head_Orientations(ask_order, _participant_Amount):
         currentlyIteratedOrientation = nextIdLocation
         iterator += 1
     return first_headOrientation, second_headOrientation, third_headOrientation, fourth_headOrientation
+
+def Conclude_Session():
+    
+    set_send_message("[GESTURE] " + "QT/neutral")
+    while ServerScript.service_in_progress:
+        pass
+    
+    conclusionResponse = ChatGPT_Prompting.Simple_PromptChatGPT_ReturnResponse("Summarize and state a course of actions the participants can do when trying to realize their ideas for their project. Maximum a 150 words. Thank the participants for a good conversation and end by greeting them goodbye.", _messageRole="system")
+
+    set_send_message("[TALK] " + conclusionResponse)
+    TTS_Robot.text_to_speech_openai(conclusionResponse)
+    while ServerScript.service_in_progress:
+        pass
+    
+    set_send_message("[GESTURE] QT/bye")
+    
 
 
 def HeadNodForDuration():
