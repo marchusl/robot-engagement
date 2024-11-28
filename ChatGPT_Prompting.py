@@ -1,9 +1,12 @@
 from openai import OpenAI
 client = OpenAI()
 
-startPrompt = ""
+start_TrainingDataPrompt = ("Do not rely entirely on the following data when generating responses, but try to correlate it with what is said by participants when it is relevant: "
+                            "")
 
-allMessages = [{"role": "system", "content": startPrompt}]     #Initializing structure for a context window for ChatGPT, which is consisting of messages.
+startingPrompt = ""
+
+allMessages = [{"role": "system", "content": startingPrompt}]     #Initializing structure for a context window for ChatGPT, which is consisting of messages.
 
 
 def User_PromptChatGPT_ReturnResponse(_userChatList, _promptMessage, _messageRole):

@@ -26,7 +26,7 @@ def text_to_speech_openai(_transcriptionText):
     p = pyaudio.PyAudio()
     stream = p.open(format=8,
                     channels=1,
-                    rate=23000,
+                    rate=22750,
                     output=True)
     
     try:
@@ -51,4 +51,5 @@ def text_to_speech_robotlocal(_transcriptionText):
     set_send_message("[TALK] " + _transcriptionText)
     
 #text_to_speech_openai("Visdom ligger i at forstå, at de enkleste sandheder ofte er de mest dybsindige. Menneskets søgen efter mening er en rejse, ikke en destination, og svarene findes sjældent uden for os selv, men dybt i vores indre.")
-#text_to_speech_openai("Hej mit navn er Aria.")
+#text_to_speech_openai("Hej alle sammen! Mit navn er Aria, og jeg er her i dag for at hjælpe jer med idéer til jeres projektarbejde. Jeg vil rigtig godt høre jeres idéer og hjælpe jer på vej med at realisere dem. Som den første del af opgaven får I et minut til at skrive så mange idéer ned som muligt, hvor I så skal udvælge jeres bedste idé. Til sidst skal I præsentere for resten af gruppen. "
+                      #"Tiden begynder om Tre... To... En... Nu.")

@@ -35,7 +35,7 @@ def CreateStringCommand_Nod(currentPosition):
     return actionstring
 
 
-def define_orientation_by_id(id, participation_amount):     # Method used for translating the participation id to rotations
+def define_orientation_by_id(id, participation_amount):     # Method used for translating the participation id to rotations, given that IDs are given to participants starting from the LEFT going right, icrementing participation ID the further right you are relative to other participants.
     #participantAmmount = len(ask_order_list)
     headOrientation = ""
     if participation_amount == 2:
