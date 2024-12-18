@@ -5,12 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ea27cc3d-ba27-4925-b84e-9f1f3adee183" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/MDMT_QuestionnaireData.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/RoSas_QuestionnaireData.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.robot-engagement.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.robot-engagement.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ChatGPT_Prompting.py" beforeDir="false" afterPath="$PROJECT_DIR$/ChatGPT_Prompting.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Mic_Test.py" beforeDir="false" afterPath="$PROJECT_DIR$/Mic_Record.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MediapipePre.py" beforeDir="false" afterPath="$PROJECT_DIR$/MediapipePre.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/STT_Transcription.py" beforeDir="false" afterPath="$PROJECT_DIR$/STT_Transcription.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TTS_Robot.py" beforeDir="false" afterPath="$PROJECT_DIR$/TTS_Robot.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/transcriptionFiles/participant1_transcription.txt" beforeDir="false" afterPath="$PROJECT_DIR$/transcriptionFiles/participant1_transcription.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/transcriptionFiles/participant2_transcription.txt" beforeDir="false" afterPath="$PROJECT_DIR$/transcriptionFiles/participant2_transcription.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,6 +35,10 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 3
@@ -42,37 +48,42 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.ChangeHeadOrientation_Pixel.executor": "Run",
-    "Python.ChatGPT_Prompting.executor": "Run",
-    "Python.FaceRecognition.executor": "Run",
-    "Python.MediapipePre.executor": "Run",
-    "Python.OpenaiAPI_Test.executor": "Run",
-    "Python.TTS_Robot.executor": "Run",
-    "Python.UserHeadDirection.executor": "Run",
-    "Python.main.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.ChangeHeadOrientation_Pixel.executor&quot;: &quot;Run&quot;,
+    &quot;Python.ChatGPT_Prompting.executor&quot;: &quot;Run&quot;,
+    &quot;Python.FaceRecognition.executor&quot;: &quot;Run&quot;,
+    &quot;Python.MDMT_QuestionnaireData.executor&quot;: &quot;Run&quot;,
+    &quot;Python.MediapipePre.executor&quot;: &quot;Run&quot;,
+    &quot;Python.OpenaiAPI_Test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.QuestionnaireData.executor&quot;: &quot;Run&quot;,
+    &quot;Python.RoSas_QuestionnaireData.executor&quot;: &quot;Run&quot;,
+    &quot;Python.STT_Transcription.executor&quot;: &quot;Run&quot;,
+    &quot;Python.ServerScript.executor&quot;: &quot;Run&quot;,
+    &quot;Python.TTS_Robot.executor&quot;: &quot;Run&quot;,
+    &quot;Python.UserHeadDirection.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "rider.external.source.directories": [
-      "C:\\Users\\MatDe\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\DecompilerCache",
-      "C:\\Users\\MatDe\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\SourcesCache",
-      "C:\\Users\\MatDe\\AppData\\Local\\Symbols\\src"
+  &quot;keyToStringList&quot;: {
+    &quot;rider.external.source.directories&quot;: [
+      &quot;C:\\Users\\MatDe\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\DecompilerCache&quot;,
+      &quot;C:\\Users\\MatDe\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\SourcesCache&quot;,
+      &quot;C:\\Users\\MatDe\\AppData\\Local\\Symbols\\src&quot;
     ]
   }
-}]]></component>
-  <component name="RunManager" selected="Python.main">
-    <configuration name="ChatGPT_Prompting" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+}</component>
+  <component name="RunManager" selected="Python.RoSas_QuestionnaireData">
+    <configuration name="MDMT_QuestionnaireData" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="rider.module" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -85,7 +96,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/ChatGPT_Prompting.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/MDMT_QuestionnaireData.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -94,7 +105,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="FaceRecognition" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="QuestionnaireData" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="rider.module" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -107,7 +118,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/FaceRecognition.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/QuestionnaireData.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -116,7 +127,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="MediapipePre" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="RoSas_QuestionnaireData" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="rider.module" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -129,7 +140,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/MediapipePre.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/RoSas_QuestionnaireData.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -138,7 +149,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="UserHeadDirection" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="STT_Transcription" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="rider.module" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -151,7 +162,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/UserHeadDirection.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/STT_Transcription.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -184,11 +195,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.RoSas_QuestionnaireData" />
+        <item itemvalue="Python.MDMT_QuestionnaireData" />
         <item itemvalue="Python.main" />
-        <item itemvalue="Python.ChatGPT_Prompting" />
-        <item itemvalue="Python.MediapipePre" />
-        <item itemvalue="Python.UserHeadDirection" />
-        <item itemvalue="Python.FaceRecognition" />
+        <item itemvalue="Python.QuestionnaireData" />
+        <item itemvalue="Python.STT_Transcription" />
       </list>
     </recent_temporary>
   </component>
@@ -220,12 +231,23 @@
       <workItem from="1732010983880" duration="15000" />
       <workItem from="1732064852332" duration="20000" />
       <workItem from="1732065109901" duration="3975000" />
+      <workItem from="1732178712015" duration="32451000" />
+      <workItem from="1732373916239" duration="621000" />
+      <workItem from="1732524080001" duration="48829000" />
+      <workItem from="1732646123423" duration="3161000" />
+      <workItem from="1732649403767" duration="1208000" />
+      <workItem from="1732695889660" duration="13773000" />
+      <workItem from="1733830375983" duration="4386000" />
+      <workItem from="1734006890619" duration="5956000" />
+      <workItem from="1734080611172" duration="10380000" />
+      <workItem from="1734425048794" duration="1244000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>

@@ -40,3 +40,6 @@ def saveFullDiscussion(fullList):
             file.write(line + "\n")
 
     print(f"File saved as: {filename}")
+
+
+#transcribe_audio("HTX test 2 (part one).wav", "_Interview_2-PART-ONE_")

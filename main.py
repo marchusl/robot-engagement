@@ -42,7 +42,7 @@ faceCenterPixels = []
 
 allMessages_TranscriptionList = []
 
-participant_Amount = 2
+participant_Amount = 4
 
 # Used for orienting the head
 globalCurrentHeadPosition = "neutral"   # The middle input in the action string sent through socketstreaming.
