@@ -41,27 +41,27 @@ The robot consists of two PC’s: QTPC (the one you work on via mouse and keyboa
 #### 2. Accessing QTRP
 In the terminal, write the following code to access the QTRP:
 
-ssh developer@192.168.100.1
+*ssh developer@192.168.100.1*
 
-The password to enter is qtrobot, all in small caps. (NOTE: You won’t be able to see what you write, when entering the password)
+The password to enter is *qtrobot*, all in small caps. (NOTE: You won’t be able to see what you write, when entering the password)
 
 #### 3. Accessing Network configuration file
-Once you are on the QTRP, you have to enter the following file path and then access the wpa_supplicant-wlan0 configuration file using the sudo nano command:
+Once you are on the QTRP, you have to enter the following file path and then access the *wpa_supplicant-wlan0* configuration file using the *sudo nano* command:
 
-cd /etc/wpa_supplicant
-sudo nano wpa_supplicant-wlan0.conf
+*cd /etc/wpa_supplicant*
+*sudo nano wpa_supplicant-wlan0.conf*
 
 #### 4. The config file
 If you don’t already see this text within the configuration file, then write it in:
 
-country=LU
-ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
-update_config=1
+*country=LU*
+*ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev*
+*update_config=1*
 
-network={
-    ssid="<your router SSID>"
-    psk="<your router passphrase>"         
-}
+*network={
+    ssid="<your_router_SSID>"
+    psk="<your_router_passphrase>"         
+}*
 
 The only thing you have to specify is “your router SSID” (Name of the network you want to connect to) and “your router passphrases” (Password to the network)
 
@@ -70,20 +70,20 @@ Once written save the file with CTRL+S and then exit with CTRL+X
 #### 5. Restart Client
 Write this in the console to restart the network, so that the PC can connect to the new network:
 
-sudo systemctl restart qt_wlan0_client.service
+*sudo systemctl restart qt_wlan0_client.service*
 
 #### 6. Verify connection
 To see if you are connected you can try to ping google, by writing the following:
 
-ping www.google.com
+*ping www.google.com*
 
 You should see messages printed in the console that indicate it is pinging google. Use CTRL+C to make it stop pinging
 
 #### 7. Make connection permanent
 To make the connection permanent, write the following lines in the command line:
 
-sudo systemctl enable qt_wlan0_client.service
+*sudo systemctl enable qt_wlan0_client.service*
 
-sudo systemctl disable qt_wlan0_ap.service
+*sudo systemctl disable qt_wlan0_ap.service*
 
-You are now ready to go back to the QTPC to continue your work. (you can close the console and open it again, or make a new tab in the console to return to the QTPC. Alternatively you can write ssh developer@QTPC and again write the password qtrobot)
+You are now ready to go back to the QTPC to continue your work. (you can close the console and open it again, or make a new tab in the console to return to the QTPC. Alternatively you can write *ssh developer@QTPC* and again write the password *qtrobot*)
