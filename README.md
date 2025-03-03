@@ -31,6 +31,7 @@ Features:
 - Client_Test.py - Receives and processes commands from the computer to run ROS commands like talking, changing the screen, gesturing, etc.
 
 ## Configurations
+For a more in-depth explanation of configurations and set-up, download the PDF file "QTRobot Demo Description" under the folder "Configurations PDF".
 
 ### Connecting the Robot to the WiFi
 Before anything is done, you need to ensure that the robot and the pc that you are working with are connected to the same network. The process of connecting the robot to the internet is described in LUXAI’s documentation [LuxAI.com/docs](https://docs.luxai.com/docs/intro_code), but to try and simplify the process we will describe it here:
