@@ -15,7 +15,7 @@ import ChatGPT_Prompting
 
 
 #video = cv2.VideoCapture(0)
-
+                            #-------------------------------------The starting prompt used for instructing the ChatGPT API instance at the start of the experience-------------------------------#
 startingPrompt_ChatGPT = ("You are embodying a robot that is communicating verbally and is supposed to help a group of 3-4 students evaluate and build upon their current ideas for a project regarding the main topic 'Den Moderne Ungdom'." + 
                           "You will first listen to each student's pitch of their idea. When every student/participant has done their pitch, you will give feedback that can help them improve or build upon their ideas in regards to the main topic. Do this within a maximum of 100 words." +
                           "Remember to be jolly and motivating when giving this feedback to the students, highlighting interesting points about their individual ideas." +
@@ -115,8 +115,9 @@ def main():
     
     # --------------------- FIRST HALF OF EXPERIENCE: PITCH ROUND ---------------------------------------------
 
-    ask_order = ""
-
+    ask_order = ""  # Variable used for storing the string containing the order in which the robot should talk to participants in the discussion.
+    
+    #-------Used for asserting in which order the robot should ask and point, starting from its left going right - depending on the amount of participants--------#
     if participant_Amount == 2:
         ask_order = "1,2"
     if participant_Amount == 3:
@@ -158,12 +159,13 @@ def main():
         
         set_send_message("[NOD] nod-" + ServerScript.current_head_position)
         
-        Pitch_StartParticipationRound(firstPrompt="The first participant is now starting their pitch presentation.",
-                                      secondPrompt="The first participant has now finished their pitch presentation.",
-                                      duration=60,
-                                      currentParticipantNumber=1,
-                                      messageList=messagesList_participant_1,
-                                      roundDoneBool=pitch_firstPitchDone)
+        Pitch_StartParticipationRound(firstPrompt="The first participant is now starting their pitch presentation.",    # Prompt used to tell ChatGPT API instance, the chronological time 
+                                                                                                                        # that the participant starts talking, which is sent as the context window.
+                                      secondPrompt="The first participant has now finished their pitch presentation.",  # Tells the ChatGPT API instance that the participant has finished talking.
+                                      duration=60,                                                                      # Duration of the time the ChatGPT instance listens to the participant (Can be manually triggered by pressing SPACE)
+                                      currentParticipantNumber=1,                                                       # Participant number is used for labelling input from participants, so as to know who said what.
+                                      messageList=messagesList_participant_1,                                           # The message structure list instance which is used to store each participant's conversations with the robot.
+                                      roundDoneBool=pitch_firstPitchDone)                                               # Flips a bool in order to confirm the end of a pitch round.
         while ServerScript.service_in_progress:
             pass
         
@@ -182,7 +184,9 @@ def main():
             pass
         
         set_send_message("[NOD] nod-" + ServerScript.current_head_position)
-        Pitch_StartParticipationRound(firstPrompt="The second participant is now starting their pitch presentation.",
+        
+        #------------Refer to code explanation starting line 161------------#
+        Pitch_StartParticipationRound(firstPrompt="The second participant is now starting their pitch presentation.",   
                                       secondPrompt="The second participant has now finished their pitch presentation.",
                                       duration=60,
                                       currentParticipantNumber=2,
